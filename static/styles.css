@@ -1,0 +1,58 @@
+* {
+    font-family: 'Roboto';
+    margin: 0;
+    padding: 0;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+html, body {
+    width: 100vw;
+    height: calc(100vh - 100px);
+}
+
+.page-container {
+    padding: 20px 4px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.button-row {
+    margin: 4px;
+    display: flex;
+    gap: 4px;
+    justify-content: stretch;
+    justify-items: stretch;
+}
+
+.button-row sl-button {
+    flex: 1 1 20%;
+}
+
+
+#touch-area-container {
+    display: grid;
+    width: 100%;
+    height: calc(100% - 100px);
+    grid-template-columns: 50px 1fr 50px 50px;
+    grid-template-rows: 50px 1fr 50px 50px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+#touchpad {
+    grid-area: 1 / 1 / 4 / 4;
+    background-color: #aaa;
+    border-radius: 8px;
+}
+
+#scroll-vertical {
+    grid-area: 2 / 4 / 3 / 5;
+    background-color: #666;
+}
+
+#scroll-horizontal {
+    grid-area: 4 / 2 / 5 / 3;
+    background-color: #666;
+}
