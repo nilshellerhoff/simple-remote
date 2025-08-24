@@ -40,13 +40,8 @@ def handle_click():
     mouse.click(Button.left)
 
 @socketio.on('horizontal-scroll')
-def handle_pandown(data):
-    try:
-        mouse.scroll(data, 0)
-    except Exception as e:
-        print("Exception scrolling", e)
-    print("pandown")
-    print(data)
+def handle_horizontal_scroll(data):
+    mouse.scroll(-1 * data, 0)
 
 @socketio.on('vertical-scroll')
 def handle_vertical_scroll(data):
