@@ -2,9 +2,14 @@
     font-family: 'Roboto';
     margin: 0;
     padding: 0;
-    touch-action: manipulation;
+    touch-action: manipulation !important   ;
     user-select: none;
     -webkit-user-select: none;
+}
+
+/* shadow dom is unaffected by global CSS rules */
+*::part(base) {
+    touch-action: manipulation;
 }
 
 html, body {
