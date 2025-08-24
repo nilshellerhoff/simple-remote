@@ -55,7 +55,7 @@
                name="keyboard-fill"></sl-icon>
     </sl-button>
     <sl-button variant="warning"
-               onclick="$refs.settingsDialog.show()">
+               @click="$refs.settingsDialog.show()">
       <sl-icon slot="prefix"
                name="gear"></sl-icon>
     </sl-button>
@@ -93,7 +93,10 @@
               max="10"
               step="0.1"
               x-model="$store.settings.touchpadSpeed"></sl-range>
-    Touchpad speed: <span x-text="$store.settings.touchpadSpeed"></span>
+    <div>Touchpad speed: <span x-text="$store.settings.touchpadSpeed"></span></div>
+    <sl-button @click="window.location.reload()">
+      <i slot="prefix">refresh</i> Reload app
+    </sl-button>
     <sl-button slot="footer"
                variant="primary"
                @click="$refs.settingsDialog.hide()">Close
