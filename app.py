@@ -10,6 +10,16 @@ socketio = SocketIO(app)
 mouse = MouseController()
 keyboard = KeyboardController()
 
+def limit_to_range(x):
+    """Limit the mouse movement to the range available in pynput"""
+    if x < -2**15:
+        return -2**15
+    elif x > 2**15:
+        return 2**15
+    else:
+        return x
+
+
 @app.route('/')
 def hello_world():  # put application's code here
     return render_template('base.html')
@@ -21,7 +31,9 @@ def handle_event(data):
 
 @socketio.on('mouse-move')
 def handle_mouse_move(data):
-    mouse.move(*data)
+    x = limit_to_range(data[0])
+    y = limit_to_range(data[1])
+    mouse.move(x, y)
 
 @socketio.on('mouse-click')
 def handle_click():
