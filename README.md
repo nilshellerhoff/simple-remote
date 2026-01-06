@@ -1,11 +1,11 @@
 # Simple Remote
 
-![screenshot.png](screenshot.png)
-
 Remote control your PC from your phone. Uses
 
 - Go with [go-socket.io](https://github.com/googollee/go-socket.io)	and [robotgo](https://github.com/go-vgo/robotgo)
 - AlpineJS with [Shoelace Webcomponents](https://shoelace.style/)
+
+![screenshot.png](screenshot.png)
 
 ## Building
 
