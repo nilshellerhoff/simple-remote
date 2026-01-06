@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 
 	"github.com/go-vgo/robotgo"
@@ -42,6 +43,19 @@ func main() {
 
 	http.Handle("/socket.io/", server)
 	http.Handle("/", http.FileServer(http.Dir("./webroot")))
-	log.Println("Serving at localhost:8000...")
+
+	ips, _ := net.InterfaceAddrs()
+	ip_address := "N/A"
+
+	for _, ip := range ips {
+		if ipnet, ok := ip.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				ip_address = ipnet.IP.String()
+				break
+			}
+		}
+	}
+
+	log.Printf("Open your phone browser at %s:8000\n", ip_address)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
