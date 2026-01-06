@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Remote</title>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+  <!-- Robot & Material Symbols font -->
+  <link href="/static/roboto.css" rel="stylesheet" type="text/css">
+  <link href="/static/material-symbols-outlined.css" rel="stylesheet"/>
+
+  <!-- Shoelace -->
+  <link rel="stylesheet" href="/static/lib/shoelace@2.20.1/cdn/themes/light.css"/>
+  <script type="module" src="/static/lib/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
+
+  <!-- Alpine component plugin -->
+  <!--  <script defer src="/static/lib/alpinejs-component@1.2.12/dist/component.min.js"></script>-->
+
+  <!-- Alpine persist plugin -->
+  <script defer src="/static/lib/alpinejs-persist@3.15.3/dist/cdn.min.js"></script>
+  <!-- Alpine.js -->
+  <script defer src="/static/lib/alpinejs@3.15.3/dist/cdn.js"></script>
+
+  <!-- socket.io -->
+  <script src="/static/lib/socket.io-1.2.0.js"></script>
+
+  <!-- hammer.js -->
+  <script src="/static/lib/hammer.js"></script>
+
+  <!-- lodash -->
+  <script src="/static/lib/lodash.js"></script>
+
+  <script src="/static/sendEvents.js"></script>
+  <script src="/static/alpineHelpers.js"></script>
+  <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+
+<body style="overflow:hidden" x-data="{}">
+
+<div class="page-container">
+  <div class="button-row">
+    <sl-button variant="primary"
+               onclick="sendSpecialKey('esc')">
+      ESC
+    </sl-button>
+    <sl-button variant="primary"
+               onclick="sendSpecialKey('space')">
+      <b>␣</b>
+    </sl-button>
+    <sl-button variant="neutral"
+               disabled>
+      <sl-icon slot="prefix"
+               name="keyboard-fill"></sl-icon>
+    </sl-button>
+    <sl-button variant="warning"
+               @click="$refs.settingsDialog.show()">
+      <sl-icon slot="prefix"
+               name="gear"></sl-icon>
+    </sl-button>
+  </div>
+
+  <div class="button-row">
+    <sl-button variant="primary"
+               onclick="sendSpecialKey('audio_mute')">
+      <i slot="prefix">volume_mute</i>
+    </sl-button>
+    <sl-button variant="primary"
+               onclick="sendSpecialKey('audio_vol_down')">
+      <i slot="prefix">volume_down</i>
+    </sl-button>
+    <sl-button variant="primary"
+               onclick="sendSpecialKey('audio_vol_up')">
+      <i slot="prefix">volume_up</i>
+    </sl-button>
+    <sl-button variant="primary"
+               onclick="sendSpecialKey('audio_play')">
+      <i slot="prefix">play_pause</i>
+    </sl-button>
+  </div>
+
+  <!-- Settings Dialog -->
+  <sl-dialog x-ref="settingsDialog">
+    <sl-range label="Touchpad Acceleration"
+              min="0.1"
+              max="10"
+              step="0.1"
+              x-model="$store.settings.touchpadAcceleration"></sl-range>
+    Touchpad acceleration: <span x-text="$store.settings.touchpadAcceleration"></span>
+    <sl-range label="Touchpad Speed"
+              min="0.1"
+              max="10"
+              step="0.1"
+              x-model="$store.settings.touchpadSpeed"></sl-range>
+    <div>Touchpad speed: <span x-text="$store.settings.touchpadSpeed"></span></div>
+    <sl-range :label="`Touch scroll Speed ` + $store.settings.touchScrollSpeed"
+              min="1" max="100" step="0.1" x-model="$store.settings.touchScrollSpeed"></sl-range>
+    <sl-button @click="window.location.reload()">
+      <i slot="prefix">refresh</i> Reload app
+    </sl-button>
+    <sl-button slot="footer"
+               variant="primary"
+               @click="$refs.settingsDialog.hide()">Close
+    </sl-button>
+  </sl-dialog>
+
+  <div id="touch-area-container">
+    <div id="touchpad"
+         x-ref="touchpad"
+         @click="sendMouseClick()">
+    </div>
+    <div id="scroll-vertical"></div>
+    <div id="scroll-horizontal"></div>
+    <button style="grid-area: 1 / 4 / 2 / 5;" onclick="sendScrollVertical(1)">
+      <i slot="prefix">arrow_drop_up</i>
+    </button>
+    <button style="grid-area: 3 / 4 / 4 / 5" onclick="sendScrollVertical(-1)">
+      <i> arrow_drop_down </i>
+    </button>
+    <button style="grid-area: 4 / 1 / 5 / 2" onclick="sendScrollHorizontal(1)">
+      <i>arrow_left</i>
+    </button>
+    <button style="grid-area: 4 / 3 / 5 / 4" onclick="sendScrollHorizontal(-1)">
+      <i>arrow_right</i>
+    </button>
+  </div>
+</div>
+
+<script src="/static/handleTouch.js"></script>
+<script>
+  definePersistentStore({
+    touchpadAcceleration: 2.5,
+    touchpadSpeed: 0.5,
+    touchScrollSpeed: 10,
+  })
+</script>
+
+</body>
+</html>

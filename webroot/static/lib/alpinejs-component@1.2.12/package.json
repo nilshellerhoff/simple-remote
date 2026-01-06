@@ -1,0 +1,24 @@
+{
+  "name": "alpinejs-component",
+  "version": "1.2.12",
+  "description": "Reusable HTML components powered by Alpine JS reactivity 🛸",
+  "keywords": [
+    "Alpine",
+    "Alpine JS",
+    "Alpine JS Plugin",
+    "Alpine JS Plugins",
+    "Alpine JS Component",
+    "Alpine JS Components",
+    "HTML Components"
+  ],
+  "author": "Mark Mead",
+  "license": "MIT",
+  "module": "dist/component.esm.js",
+  "unpkg": "dist/component.min.js",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
