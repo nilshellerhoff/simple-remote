@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="/static/styles.css"/>
 </head>
 
-<body style="overflow:hidden" x-data="{}">
+<body style="overflow:hidden" x-data>
 
 <div class="page-container">
   <div class="button-row">
@@ -125,12 +125,54 @@
   </div>
 </div>
 
+<div id="connected-status">
+  <template x-if="$store.app.connected">
+    <div style="background-color: var(--sl-color-success-600); color: #fff; padding: 10px; margin: 10px; border-radius: 5px">
+      <span style="font-size: 16px; line-height: 40px">
+        <sl-icon name="check2-circle" style="font-size: 24px; margin: 0 10px -5px 0"></sl-icon>
+        <strong style="font-size: 16px; line-height: 40px">Connected</strong>
+      </span>
+
+    </div>
+  </template>
+  <template x-if="!$store.app.connected">
+    <div style="background-color: var(--sl-color-danger-600); color: #fff; padding: 10px; margin: 10px; border-radius: 5px">
+      <span style="font-size: 16px; line-height: 40px">
+        <sl-icon name="exclamation-octagon" style="font-size: 24px; margin: 0 10px -5px 0"></sl-icon>
+        <strong style="font-size: 16px; line-height: 40px">Trying to reconnect...</strong>
+      </span>
+      <sl-button style="float: right" variant="danger" @click="location.reload()">
+        <sl-icon name="arrow-clockwise"></sl-icon>
+        <strong>Reload</strong>
+      </sl-button>
+      <br>
+    </div>
+  </template>
+</div>
+
 <script src="/static/handleTouch.js"></script>
 <script>
   definePersistentStore({
     touchpadAcceleration: 2.5,
     touchpadSpeed: 0.5,
     touchScrollSpeed: 10,
+  })
+</script>
+
+<script>
+  const socket = io();
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.store('app', {
+      connected: false
+    })
+
+    setInterval(() => {
+      const newConnected = socket.connected;
+      if (Alpine.store('app').connected !== newConnected)
+        console.log("Connection status: ", newConnected)
+      Alpine.store('app').connected = newConnected
+    }, 1000)
   })
 </script>
 

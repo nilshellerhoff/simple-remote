@@ -1,5 +1,3 @@
-const socket = io();
-
 const sendMouseMove = (dx, dy) => {
   socket.emit('mouse-move', [dx, dy])
 }
