@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -9,6 +11,9 @@ import (
 	"github.com/go-vgo/robotgo"
 	socketio "github.com/googollee/go-socket.io"
 )
+
+//go:embed webroot/*
+var webroot embed.FS
 
 func main() {
 	server := socketio.NewServer(nil)
@@ -42,7 +47,8 @@ func main() {
 	defer server.Close()
 
 	http.Handle("/socket.io/", server)
-	http.Handle("/", http.FileServer(http.Dir("./webroot")))
+	webfiles, _ := fs.Sub(webroot, "webroot")
+	http.Handle("/", http.FileServerFS(webfiles))
 
 	ips, _ := net.InterfaceAddrs()
 	ip_address := "N/A"
